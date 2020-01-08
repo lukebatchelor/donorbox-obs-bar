@@ -2,7 +2,7 @@
 function displayLatestDonation() {
   const latestDonationElem = document.querySelector('.recent-donator');
   latestDonationElem.style.opacity = 1;
-  setInterval(() => {
+  setTimeout(() => {
     latestDonationElem.style.opacity = 0;
   }, 5000);
 }
