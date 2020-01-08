@@ -28,7 +28,7 @@ body {
   /* border: 1px solid white; */
   display: flex;
   flex-direction: column;
-  margin: 10px 10px;
+  margin: 5px 10px;
 }
 .top-bar > div > div:first-child {
   color: rgb(98, 98, 98);
@@ -41,8 +41,8 @@ body {
 }
 .raised-bar {
   border: 1px solid red;
-  height: 30px;
-  width: 400px;
+  height: 40px;
+  width: 425px;
   border-radius: 4px;
 }
 .goal-box {
