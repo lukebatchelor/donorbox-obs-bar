@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "build": "netlify-lambda build functions",
+    "dev-backend": "yarn netlify-lambda serve functions",
     "dev": "http-server -c-1 --proxy http://localhost:9000 ./site"
   },
   "dependencies": {
