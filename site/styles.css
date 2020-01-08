@@ -2,8 +2,85 @@ body, html {
   height: 100%;
   margin: 0;
   box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  font-size: 1rem;
 }
 
 body {
   background-color: darkseagreen;
+  background-image: url('/assets/generozity-bar-1920x1080.png');
+  /* background-image: url('/assets/design.jpg'); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* border: 1px solid red; */
+}
+
+.top-bar > div {
+  /* border: 1px solid white; */
+  display: flex;
+  flex-direction: column;
+  margin: 10px 10px;
+}
+.top-bar > div > div:first-child {
+  color: rgb(98, 98, 98);
+
+}
+.raised-box {
+  text-align: center;
+  overflow: hidden;
+
+}
+.raised-bar {
+  border: 1px solid red;
+  height: 30px;
+  width: 400px;
+  border-radius: 4px;
+}
+.goal-box {
+  text-align: center;
+}
+.empty-box {
+  width: 500px;
+}
+.last-donation-box {
+  text-align: right;
+}
+.highest-donation-box {
+  text-align: right;
+  justify-self: right;
+}
+.bar {
+  height: 100%;
+  width: 90%;
+  border-radius: 2px;
+  background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+  background-size: 1rem 1rem;
+  background-color: green;
+}
+
+.recent-donator {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid red; */
+  flex-grow: 1;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 2rem;
+  opacity: 0;
+  transition: opacity 3s;
+}
+
+.recent-donator > div {
+  /* border: 1px solid blue; */
 }

@@ -2,3 +2,6 @@ node_modules
 env.sh
 *.log
 /data
+
+# Local Netlify folder
+.netlify
