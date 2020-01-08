@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="mystyle.css">
+  <title>OBS Bar</title>
+</head>
+<body>
+  <h1>OBS Bar!</h1>
+  <h3 id="counter">Count: 0</h3>
+  <script>
+    const counterEl = document.getElementById('counter');
+    let count = 0;
+    fetch('/meta.json').then(res => res.json()).then(meta => {
+      count = meta.startCount;
+    })
+    setInterval(() => {
+      count += 1;
+      counterEl.innerText = 'Count: ' + count;
+    }, 1000)
+    // counter.innerHtml = 'foo';
+  </script>
+</body>
+</html>

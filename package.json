@@ -1,0 +1,13 @@
+{
+  "name": "donorbox-obs-bar",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "http-server ./site"
+  },
+  "dependencies": {
+    "http-server": "^0.12.0",
+    "netlify-cli": "^2.25.0"
+  }
+}
