@@ -75,7 +75,7 @@ body {
   align-content: center;
   justify-content: center;
   text-align: center;
-  font-size: 2rem;
+  font-size: 4rem;
   opacity: 0;
   transition: opacity 3s;
 }
