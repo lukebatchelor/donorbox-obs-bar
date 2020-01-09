@@ -40,7 +40,7 @@ body {
 
 }
 .raised-bar {
-  border: 1px solid red;
+  border: 1px solid whitesmoke;
   height: 40px;
   width: 425px;
   border-radius: 4px;
@@ -62,9 +62,15 @@ body {
   height: 100%;
   width: 10%;
   border-radius: 2px;
-  background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+  background-image: linear-gradient(45deg,
+  rgb(206,22,31, 0.65) 25%,
+  #FFBF00 25%,
+  #FFBF00 50%,
+  rgb(206,22,31, 0.65) 50%,
+  rgb(206,22,31, 0.65) 75%,
+  #FFBF00 75%,
+  #FFBF00);
   background-size: 1rem 1rem;
-  background-color: green;
 }
 
 .recent-donator {
