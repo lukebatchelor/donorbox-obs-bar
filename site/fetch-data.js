@@ -1,6 +1,9 @@
+const urlParams = new URLSearchParams(window.location.search);
+const noPopupsParam = urlParams.has('no_popups');  // don't show donation popups
 
 // Store this globally so we can send it when fetching highest donation
 let totalDonations = 0;
+let previousDisplayedDonationName = ''; // to check if we've displayed a name already
 
 // from https://stackoverflow.com/a/14428340
 const toMoneyStr = amt => '$' + amt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
@@ -35,6 +38,11 @@ function updateDonationData() {
       lastDonationEl.innerText = lastDonationName + ' ' + toMoneyStr(lastDonationAmt);
       recentDonatorNameEl.innerText = recentDonatorStr;
       recentDonatorCommentEl.innerText = lastDonationComment;
+
+      if (!noPopupsParam && lastDonationName !== previousDisplayedDonationName) {
+        displayLatestDonation();
+        previousDisplayedDonatioName = lastDonationName;
+      }
     });
 }
 
