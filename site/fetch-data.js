@@ -49,4 +49,4 @@ document.body.addEventListener('keydown', (e) => {
 });
 
 updateData()
-window.setInterval(updateData, 30 * 1000); // update every thirty seconds
+window.setInterval(updateData, 120 * 1000); // update every 120 seconds
