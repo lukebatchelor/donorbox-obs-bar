@@ -1,4 +1,8 @@
 const urlParams = new URLSearchParams(window.location.search);
+const teamParam = urlParams.get('team');  // custom team name to display in bar (should match designation name)
+const goalParam = urlParams.get('goal');  // custom goal amount for team, will display both goal bars
+const noMainGoalParam = urlParams.has('no_main_goal'); // don't show main goal bar
+const campaignIdParam = urlParams.get('campaign_id'); // custom campaign_id (for future)
 const noPopupsParam = urlParams.has('no_popups');  // don't show donation popups
 
 // Store this globally so we can send it when fetching highest donation
@@ -47,7 +51,8 @@ function updateDonationData() {
 }
 
 function updateHighestDonationData() {
-  fetch('/.netlify/functions/get-data?get_largest=true&total_donations='+totalDonations)
+  // Note: totalDonations is a global var, updated from updateDonationData()
+  fetch('/.netlify/functions/get-data?get_largest=true&total_donations=' + totalDonations)
     .then(r => r.json())
     .then(data => {
       const { highestDonation } = data;
@@ -72,6 +77,10 @@ document.body.addEventListener('keydown', (e) => {
     displayLatestDonation();
   }
 });
+
+if (teamParam) {
+  document.querySelector('.raised-bar').setAttribute('data-team', teamParam)
+}
 
 // Get initial data (has side effect of setting totalDonations) then fetch highest donations
 updateDonationData().then(updateHighestDonationData);
