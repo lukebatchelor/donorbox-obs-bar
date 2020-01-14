@@ -1,18 +1,19 @@
 const https = require('https');
 
-const { donorbox_user, donorbox_key, campaign_id } = process.env;
+const { donorbox_user, donorbox_key, default_campaign_id } = process.env;
 
 const apiBaseUrl = 'https://donorbox.org/api/v1';
 
 // Creating our own getRequest function so we don't need to import anything except default
 // node `https`
-function getRequest(url, extraParams = '') {
+function getRequest(url, customCampaignId, extraParams = '') {
   const auth = Buffer.from(`${donorbox_user}:${donorbox_key}`).toString('base64');
   const options = {
     headers: {
       Authorization: `Basic ${auth}`,
     },
   };
+  const campaign_id = customCampaignId || default_campaign_id;
   const queryParams = `?campaign_id=${campaign_id}&per_page=100&order=desc` + extraParams;
 
   return new Promise((resolve, reject) => {
@@ -34,30 +35,30 @@ function getRequest(url, extraParams = '') {
   });
 }
 
-async function getCampaignData() {
+async function getCampaignData(customCampaignId) {
   const url = apiBaseUrl + '/campaigns';
-  const resp = await getRequest(url);
-  const campaign = resp.find(c => `${c.id}` === campaign_id);
+  const resp = await getRequest(url, customCampaignId);
+  const campaign = resp.find(c => `${c.id}` === customCampaignId);
 
   return campaign;
 }
 
-async function getRecentDonations(totalDonations) {
+async function getRecentDonations(customCampaignId) {
   const url = apiBaseUrl + '/donations';
-  const donations = await getRequest(url);
+  const donations = await getRequest(url, customCampaignId);
 
   return donations.map(getCleanedDonationInfo);
 }
 
 
-async function getLargestDonation(totalDonations) {
+async function getLargestDonation(totalDonations, customCampaignId) {
   const pagesToFetch = Math.ceil(totalDonations / 100)
   const promises = [];
   const url = apiBaseUrl + '/donations';
 
   // Create an array of promises for all the pages so we can run all the requests in parallel
   for (let i = 1; i <= pagesToFetch; i++) {
-    const promise = getRequest(url, `&page=${i}`).then(donations => {
+    const promise = getRequest(url, customCampaignId, `&page=${i}`).then(donations => {
       // Strip out all the sensitive info we don't need
       return donations.map(getCleanedDonationInfo);
     })
@@ -88,18 +89,19 @@ function getCleanedDonationInfo(donation) {
 exports.handler = async function(event, context) {
   const { queryStringParameters } = event;
   const shouldGetLargest = !!queryStringParameters.get_largest;
+  const customCampaignId = queryStringParameters.campaign_id;
 
   try {
     if (shouldGetLargest) {
       const totalDonations = Number(queryStringParameters.total_donations || 100); // default to 100
       console.log(`Requesting highest donations, donations=${totalDonations}`);
-      const highestDonation = await getLargestDonation(totalDonations);
+      const highestDonation = await getLargestDonation(totalDonations, customCampaignId);
 
       return { statusCode: 200, body: JSON.stringify({ highestDonation }) };
     }
 
     console.log('Requesting recent donations');
-    const [campaignData, donationData ] = await Promise.all([getCampaignData(), getRecentDonations()]);
+    const [campaignData, donationData ] = await Promise.all([getCampaignData(customCampaignId), getRecentDonations(customCampaignId)]);
     const lastDonation = donationData[0];
 
     return {

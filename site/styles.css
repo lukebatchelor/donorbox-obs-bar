@@ -41,7 +41,7 @@ body {
   border-radius: 4px;
 }
 .goal-box {
-  text-align: center;
+  text-align: center; 
 }
 .empty-box {
   /* Take up all the available space, to push everything else out */
@@ -87,7 +87,11 @@ body {
   justify-content: center;
   text-align: center;
   font-size: 4rem;
-  /* opacity: 0; */
+  opacity: 0;
   transition: opacity 3s;
+}
+
+.donation-message {
+  padding: 5px;
 }
 

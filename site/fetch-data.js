@@ -1,6 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const noPopupsParam = urlParams.has('no_popups');  // don't show donation popups
-const campaignIdParam = urlParams.get('campaign_id');  // custom campaign_id
+const campaignIdParam = urlParams.get('campaign_id') || '140282';  // custom campaign_id, or default to BushFires 2020
 
 // Store this globally so we can send it when fetching highest donation
 let totalDonations = 0;
@@ -10,7 +10,7 @@ let previousDisplayedDonationName = ''; // to check if we've displayed a name al
 const toMoneyStr = amt => '$' + amt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
 function updateDonationData() {
-  return fetch('/.netlify/functions/get-data')
+  return fetch(`/.netlify/functions/get-data?campaign_id=${campaignIdParam}`)
     .then(r => r.json())
     .then(data => {
       const { campaignData, donationData, lastDonation} = data;
@@ -48,7 +48,7 @@ function updateDonationData() {
 }
 
 function updateHighestDonationData() {
-  fetch('/.netlify/functions/get-data?get_largest=true&total_donations='+totalDonations)
+  fetch(`/.netlify/functions/get-data?get_largest=true&total_donations=${totalDonations}&campaign_id=${campaignIdParam}`)
     .then(r => r.json())
     .then(data => {
       const { highestDonation } = data;
@@ -69,6 +69,7 @@ function displayLatestDonation() {
 
 // Just for debugging, can hit space to display latest donation
 document.body.addEventListener('keydown', (e) => {
+  // Strangely the space key from within OBS is sending the wrong keycode?
   if (e.keyCode === 32 || e.keyCode === 65) {
     displayLatestDonation();
   }
