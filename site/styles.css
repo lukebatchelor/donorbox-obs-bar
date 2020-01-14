@@ -10,7 +10,6 @@ body, html {
 body {
   background-color: darkseagreen;
   background-image: url('/assets/generozity-bar-1920x1080.png');
-  /* background-image: url('/assets/design.jpg'); */
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -21,11 +20,9 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* border: 1px solid red; */
 }
 
 .top-bar > div {
-  /* border: 1px solid white; */
   display: flex;
   flex-direction: column;
   margin: 5px 10px;
@@ -36,20 +33,19 @@ body {
 }
 .raised-box {
   text-align: center;
-  overflow: hidden;
-
 }
 .raised-bar {
   border: 1px solid whitesmoke;
   height: 40px;
-  width: 425px;
+  min-width: 425px;
   border-radius: 4px;
 }
 .goal-box {
   text-align: center;
 }
 .empty-box {
-  width: 500px;
+  /* Take up all the available space, to push everything else out */
+  width: 100%;
 }
 .last-donation-box {
   text-align: right;
@@ -57,6 +53,15 @@ body {
 .highest-donation-box {
   text-align: right;
   justify-self: right;
+}
+
+.last-donation-box > div:last-child,
+.highest-donation-box > div:last-child {
+  min-width: 150px;
+  white-space: nowrap;
+  max-width: 250px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .bar {
   height: 100%;
@@ -82,7 +87,7 @@ body {
   justify-content: center;
   text-align: center;
   font-size: 4rem;
-  opacity: 0;
+  /* opacity: 0; */
   transition: opacity 3s;
 }
 

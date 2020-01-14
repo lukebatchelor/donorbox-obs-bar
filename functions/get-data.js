@@ -1,6 +1,6 @@
 const https = require('https');
 
-const { donorbox_user, donorbox_key, campaign_id, default_pages_to_fetch } = process.env;
+const { donorbox_user, donorbox_key, campaign_id } = process.env;
 
 const apiBaseUrl = 'https://donorbox.org/api/v1';
 

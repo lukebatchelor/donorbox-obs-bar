@@ -1,5 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const noPopupsParam = urlParams.has('no_popups');  // don't show donation popups
+const campaignIdParam = urlParams.get('campaign_id');  // custom campaign_id
 
 // Store this globally so we can send it when fetching highest donation
 let totalDonations = 0;
