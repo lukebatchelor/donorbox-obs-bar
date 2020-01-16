@@ -1,5 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const noPopupsParam = urlParams.has('no_popups');  // don't show donation popups
+const commentsParam = urlParams.has('yes_comments');  // don't show donation popups
 const campaignIdParam = urlParams.get('campaign_id') || '140282';  // custom campaign_id, or default to BushFires 2020
 
 // Store this globally so we can send it when fetching highest donation
@@ -77,6 +78,10 @@ document.body.addEventListener('keydown', (e) => {
     displayLatestDonation();
   }
 });
+
+if (commentsParam) {
+  document.querySelector('.donation-message').style.display = 'block';
+}
 
 // Get initial data (has side effect of setting totalDonations) then fetch highest donations
 updateDonationData().then(updateHighestDonationData);

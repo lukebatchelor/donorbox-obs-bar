@@ -88,10 +88,12 @@ body {
   text-align: center;
   font-size: 4rem;
   opacity: 0;
+  text-shadow: #FC0 1px 0 10px;
   transition: opacity 3s;
 }
 
 .donation-message {
   padding: 5px;
+  display: none; 
 }
 
