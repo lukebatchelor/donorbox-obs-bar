@@ -40,8 +40,11 @@ function updateDonationData() {
       recentDonatorNameEl.innerText = recentDonatorStr;
       recentDonatorCommentEl.innerText = lastDonationComment;
 
-      if (!noPopupsParam && previousDisplayedDonationName && lastDonationName !== previousDisplayedDonationName) {
-        displayLatestDonation();
+      if (!noPopupsParam && lastDonationName !== previousDisplayedDonationName) {
+        // Don't display popop if this is the first time we've fetched data
+        if (previousDisplayedDonationName !== '') {
+          displayLatestDonation();
+        }
         previousDisplayedDonationName = lastDonationName;
       }
     });
