@@ -2,6 +2,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const noPopupsParam = urlParams.has('no_popups');  // don't show donation popups
 const commentsParam = urlParams.has('yes_comments');  // don't show donation popups
 const campaignIdParam = urlParams.get('campaign_id') || '140282';  // custom campaign_id, or default to BushFires 2020
+const apiVersion = urlParams.get('api_version') || 'none'; // must match backend or will not fetch anything
+const refreshTimeSecs = urlParams.get('refresh_seconds') || '120'; // how often to fetch recent donator / campaign data
 
 // Store this globally so we can send it when fetching highest donation
 let totalDonations = 0;
@@ -11,7 +13,9 @@ let previousDisplayedDonationName = ''; // to check if we've displayed a name al
 const toMoneyStr = amt => '$' + amt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
 function updateDonationData() {
-  return fetch(`/.netlify/functions/get-data?campaign_id=${campaignIdParam}`)
+  console.log('Fetching donation data', new Date());
+
+  return fetch(`/.netlify/functions/get-data?api_version=${apiVersion}&campaign_id=${campaignIdParam}`)
     .then(r => r.json())
     .then(data => {
       const { campaignData, donationData, lastDonation} = data;
@@ -52,7 +56,9 @@ function updateDonationData() {
 }
 
 function updateHighestDonationData() {
-  fetch(`/.netlify/functions/get-data?get_largest=true&total_donations=${totalDonations}&campaign_id=${campaignIdParam}`)
+  console.log('Fetching highest donation', new Date());
+
+  fetch(`/.netlify/functions/get-data?api_version=${apiVersion}&get_largest=true&total_donations=${totalDonations}&campaign_id=${campaignIdParam}`)
     .then(r => r.json())
     .then(data => {
       const { highestDonation } = data;
@@ -68,7 +74,7 @@ function displayLatestDonation() {
   latestDonationElem.style.opacity = 1;
   setTimeout(() => {
     latestDonationElem.style.opacity = 0;
-  }, 5000);
+  }, 10000);
 }
 
 // Just for debugging, can hit space to display latest donation
@@ -86,5 +92,5 @@ if (commentsParam) {
 // Get initial data (has side effect of setting totalDonations) then fetch highest donations
 updateDonationData().then(updateHighestDonationData);
 
-window.setInterval(updateDonationData, 2 * 60 * 1000); // update every 2 mins
+window.setInterval(updateDonationData, Number(refreshTimeSecs) * 1000); // update every 2 mins (or custom time)
 window.setInterval(updateHighestDonationData, 10 * 60 * 1000); // refetch highest donator less often as it is more requests

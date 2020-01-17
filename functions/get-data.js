@@ -1,6 +1,7 @@
 const https = require('https');
 
-const { donorbox_user, donorbox_key, default_campaign_id } = process.env;
+const { donorbox_user, donorbox_key, default_campaign_id  } = process.env;
+const allowed_api_version = '1'; // Update this to lockout old instances, make sure the stream sets the `?api_version` param
 
 const apiBaseUrl = 'https://donorbox.org/api/v1';
 
@@ -90,6 +91,15 @@ exports.handler = async function(event, context) {
   const { queryStringParameters } = event;
   const shouldGetLargest = !!queryStringParameters.get_largest;
   const customCampaignId = queryStringParameters.campaign_id;
+  const apiVersion = queryStringParameters.api_version;
+
+  if (apiVersion !== allowed_api_version) {
+    console.log(`Request with incorrect API version. Sent "${apiVersion}", expected "${allowed_api_version}"`)
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ err: `Running incorrect API version. Have "${apiVersion}" expected "${allowed_api_version}"` })
+    }
+  }
 
   try {
     if (shouldGetLargest) {
